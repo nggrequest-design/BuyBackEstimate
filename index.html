@@ -470,7 +470,8 @@
     <script>
         let currentCalculation = null;
         
-        // Google Apps Script URL - ใส่ URL ของ Google Apps Script ตรงนี้
+        // Google Apps Script URL - แทนที่ด้วย URL ที่ได้จากการ Deploy
+        // ตัวอย่าง: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwB3FOJ8Kf3n2ZMPM1lTCIykrJv5fDahLMOB7i-PL0dhn8BGuA2eBSniBZxkv5D1vdtVQ/exec';
         
         function switchTab(tabName) {
@@ -664,12 +665,17 @@
                 calculationDetails: currentCalculation.calculationSteps.join(' | ')
             };
             
-            // Simulate API call (replace with actual Google Apps Script URL)
-            if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbwB3FOJ8Kf3n2ZMPM1lTCIykrJv5fDahLMOB7i-PL0dhn8BGuA2eBSniBZxkv5D1vdtVQ/exec') {
-                // Show warning if URL not configured
+            // Check if Google Apps Script URL is configured
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' || GOOGLE_SCRIPT_URL.trim() === '') {
+                // Show configuration instructions
                 setTimeout(() => {
                     document.getElementById('errorMessage').innerHTML = 
-                        '⚠️ กรุณาตั้งค่า Google Apps Script URL ก่อนใช้งาน';
+                        `⚠️ กรุณาตั้งค่า Google Apps Script URL<br>
+                        <small>📋 วิธีตั้งค่า:<br>
+                        1. สร้าง Google Apps Script ใหม่<br>
+                        2. Deploy เป็น Web app<br>
+                        3. คัดลอก URL มาใส่ในโค้ด HTML<br>
+                        4. แทนที่ 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'</small>`;
                     document.getElementById('errorMessage').style.display = 'block';
                     
                     saveBtn.innerHTML = originalText;
@@ -677,7 +683,7 @@
                     
                     setTimeout(() => {
                         document.getElementById('errorMessage').style.display = 'none';
-                    }, 3000);
+                    }, 5000);
                 }, 1000);
                 return;
             }
